@@ -1,0 +1,25 @@
+<data transports="" serviceGroup="" serviceNamespace="" name="RDBMSDataService">
+  <description />
+  <config id="Datasource">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/Employees</property>
+    <property name="username">mainuser</property>
+    <property name="password">Lmynad#1982</property>
+  </config>
+  <query id="GetEmployeeDetails" useConfig="Datasource">
+    <sql>select EmployeeNumber, FirstName, LastName, Email from Employees where EmployeeNumber=:EmployeeNumber</sql>
+    <param name="EmployeeNumber" paramType="SCALAR" sqlType="STRING" />
+    <result element="Employees">
+      <element name="EmployeeNumber" column="EmployeeNumber" xsdType="string" />
+      <element name="FirstName" column="FirstName" xsdType="string" />
+      <element name="LastName" column="LastName" xsdType="string" />
+      <element name="Email" column="Email" xsdType="string" />
+    </result>
+  </query>
+  <resource method="GET" path="Employee/{EmployeeNumber}">
+    <description />
+    <call-query href="GetEmployeeDetails">
+      <with-param name="EmployeeNumber" query-param="EmployeeNumber" />
+    </call-query>
+  </resource>
+</data>

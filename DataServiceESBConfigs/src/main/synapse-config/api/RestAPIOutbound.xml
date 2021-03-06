@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/outbound" name="RestAPIOutbound" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <property expression="get-property('query.param.postQueryId')" name="uri.var.postIdIn" scope="default" type="STRING"/>
+            <log level="custom">
+                <property expression="fn:concat('Post-ID: ', get-property('uri.var.postIdIn'))" name="QUERY_PARAM-POST_ID"/>
+            </log>
+            <call>
+                <endpoint key="TypiCodePost"/>
+            </call>
+            <property expression="json-eval($.title)" name="response.title" scope="default" type="STRING"/>
+            <log level="custom">
+                <property expression="fn:concat('Post-Title: ', get-property('response.title'))" name="RESPONSE-TITLE"/>
+            </log>
+            <dbreport>
+                <connection>
+                    <pool>
+                        <driver>com.mysql.jdbc.Driver</driver>
+                        <url>jdbc:mysql://localhost:3306/Employees</url>
+                        <user>mainuser</user>
+                        <password>Lmynad#1982</password>
+                    </pool>
+                </connection>
+                <statement>
+                    <sql><![CDATA[INSERT INTO responsetable (responsetext) values (?)]]></sql>
+                    <parameter expression="get-property('response.title')" type="VARCHAR"/>
+                </statement>
+            </dbreport>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

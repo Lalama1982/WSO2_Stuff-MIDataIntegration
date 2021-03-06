@@ -1,0 +1,12 @@
+1. Need the MySQL DB in the machine.
+	a) Create the DB, user & table and insert data into table.
+	b) Script is "table-record-script.sql"	
+		(i) Refer to table "Employees" & "responsetable".
+2. Need to copy the "jdbc-mysql-connector", "jar" file to "F:\WSO2\MI-7.1.0\micro-integrator\lib".
+3. Deploy the "CAR" application.
+4. 2 Published APIs
+	a) Call : [GET] http://localhost:8290/services/RDBMSDataService.HTTPEndpoint/Employee/3
+		(i) To get a record from "Employees" table where "EmployeeNumber = 3"
+		
+	b) Call : [GET] http://localhost:8290/outbound?postQueryId=8
+		(i)	To get a post from "TypiCode" and save the title to "responsetable".
